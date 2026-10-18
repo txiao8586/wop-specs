@@ -22,7 +22,7 @@
 
 ## 2. wop-skills PR #23（factory 上游同步）—— 审查通过，可合
 
-- 同步源真实：锚 7cf96c055 存在于 awesome-rules 本地 feedback/wop-skills-neutral-hostnames 分支（upstream-lock 指本地路径；GitHub 侧 im47cn/awesome-rules 对 bot 不可见，上游 PR #260 状态需 im47cn 本人确认）
+- 同步源真实：锚 7cf96c055 存在于上游 awesome-factory（原 awesome-rules 更名；java-sdk `.factory` cd71ba1 已重定向 upstream_repo→im47cn/awesome-factory，本地克隆目录 ~/sources/awesome-rules 仍用旧名，git 更名保留 SHA 故锚不变）feedback/wop-skills-neutral-hostnames 分支（upstream-lock 指本地路径；GitHub 侧 im47cn/awesome-factory 对 bot 不可见，上游中性化 PR #260 状态需 im47cn 本人确认）
 - PR 分支 543 测试全绿（15 skipped）；upstream-sync-check --check 干净（full 面与上游字节一致）
 - 与 main 无分叉（纯超集，MERGEABLE）
 - 描述失真一节：「test_space_id_maps_path_namespace 在 main 实测红」已过期——main 该测试现已绿（后续 PR 自愈），不影响本 PR 增量价值
@@ -40,5 +40,5 @@
 
 ## 遗留
 
-- awesome-rules 中性化分支的 GitHub 上游 PR #260 状态待 im47cn 确认（bot 不可见）
+- 上游 awesome-factory（原 awesome-rules 更名）中性化 PR #260 状态待 im47cn 确认（bot 不可见）
 - java-showcase / static-openapi 未深审（后续如需）
