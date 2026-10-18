@@ -1,0 +1,23 @@
+name: ci
+
+# specs 是五仓 SDK fixture 的向量真源，坏数据合入即污染全部黄金向量测试。
+# 本仓纯数据+工具链，无运行时测试面；CI 门禁=结构完整性（scripts/check_vectors.py）。
+# 兄弟仓的 sourcery-review-gate 属后续增项（需先在本仓配 SOURCERY_TOKEN secret）。
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  structure:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-python@v7
+        with:
+          python-version: "3.12"
+      - name: Vector structure gate
+        run: python scripts/check_vectors.py
