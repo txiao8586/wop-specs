@@ -86,7 +86,8 @@ WopClient / WopConfig
 - SM2-SM3 下 ZA 的 userId 取**出向请求实际携带的 `x-wop-appkey` 值**（= `config.appKey`
   的同一序列化结果），闭环 D14：签名身份与请求身份恒同源，禁止读库默认值。
 - **唯一可选透传头（附录 I，2026-09-23 增补）**：`x-wop-request-id` 恒不入签——本表即签名白名单
-  冻结全集，不因透传头扩容；缺省 UUID 自生成、出向日志必打，契约详见附录 I。
+  冻结全集，不因透传头扩容（条件身份头 `x-wop-sub-mch-id` 随附录 J 并入本表）；缺省 UUID 自生成、
+  出向日志必打，契约详见附录 I。
 - **条件身份头（附录 J，2026-10-28 增补）**：`x-wop-sub-mch-id` 出现即必签——必须在签名计算
   **之前**写入头集合，与其余入签头同源；未设置（或 trim 后为空）时头缺席，出向字节与旧版
   逐字节一致（AC-20）。它不是透传头：与附录 I 的 `x-wop-request-id`（恒不入签）语义相反。
@@ -396,6 +397,7 @@ canonicalRequest := authString "\n" httpRequestMethod "\n" canonicalURI
 
 - trim 前按**原值**逐字符扫描：仅允许可打印 ASCII `0x20..0x7E`；控制字符（含 CR/LF/NUL/DEL）与非 ASCII 一律拒（防头注入与签名/身份歧义）。
 - **trim** 语义与空白集同附录 I/I2；trim 后为空 → 视为未设置（J1 缺席口径）；trim 后含内部空格 → 拒（网关 canonical trimall 折叠与身份查询不一致）；trim 后长度 > 128 → 拒（值已限定 ASCII，字符数 = 字节数）。
+- 示例：值 `"   "`（纯空格）→ 头缺席；值 `"	"`（制表符）→ `configuration` 拒（控制字符在 trim 前即拒）——「空白即缺席」仅指空格类且必须先通过控制字符扫描。
 - 校验时机为请求级选项构造/装配时（fail-fast），违规抛 `configuration` 类 WopError（§2.2，I7 文案明确）。
 
 ### J3. 跨语言落地义务（六仓同等）
